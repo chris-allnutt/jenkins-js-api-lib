@@ -115,7 +115,7 @@ describe("Jenkins API", function() {
     });
 
     api.init(baseTestUrl);
-    api.getUpstreamDependenciesForJob(job, onSuccess);
+    api.getUpstreamProjectsForJob(job, onSuccess);
 
     expect(onSuccess).toHaveBeenCalled();
     expect(onSuccess.mostRecentCall.args[0].length).toEqual(2);      

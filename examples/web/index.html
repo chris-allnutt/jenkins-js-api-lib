@@ -21,6 +21,22 @@
     #jobs {
       clear: both;
     }
+    
+    .job {
+      border: 1px solid black;
+      padding: 5px;
+      margin-left: 5px;
+    }
+    
+    .view_upstream {
+      border: 5px solid grey;
+      background-color: darkgrey;
+      padding: 2px;
+      clear: both;
+      color: white;
+      display: block;
+      width: 160px;
+    }
   </style>
 </head>
 
@@ -38,9 +54,31 @@
   </div>
 <script type="text/javascript">
 
+  var listJobs = function(jobs, parent) {
+    var newDiv;
+    var parent = parent || $('#jobs');
+    
+    for(var x = 0; x < jobs.length; x ++) {
+      newDiv = $('<div class="job"></div>').
+        html(jobs[x].name + ' - ' + jobs[x].url).
+        css({color: jobs[x].color}).
+        appendTo(parent);
+       
+      newLink = $('<a class="view_upstream">Show Upstream Projects</a>').
+        data({
+          color: jobs[x].color,
+          url:   jobs[x].url,
+          name:  jobs[x].name
+        }
+      ).appendTo(newDiv);
+    }
+  };
+
   $(function () {
+    var api;
+    
     $('#getJobs').submit(function (form) {
-      var api, server_url, username, password;
+      var server_url, username, password;
       
       server_url = $('input[name="server_url"]', this).val();
       username = $('input[name="username"]', this).val();
@@ -53,18 +91,19 @@
       }
       
       api.getJobs(function(jobs) {
-        var newDiv;
-        
-        for(var x = 0; x < jobs.length; x ++) {
-          newDiv = $('<div></div>').
-            html(jobs[x].name + ' - ' + jobs[x].url).
-            css({color: jobs[x].color}).
-            appendTo($('#jobs'));
-        }
+        listJobs(jobs);
       });
       
       return false;
     })
+    
+    $('body').delegate('.view_upstream', 'click', function() {
+      var link = $(this);
+
+      api.getUpstreamProjectsForJob(new JenkinsAPIJob(link.data()), function(jobs) {
+        listJobs(jobs, link.parent());
+      });
+    });
   });
 
 </script>

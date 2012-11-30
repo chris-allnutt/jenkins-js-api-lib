@@ -96,7 +96,7 @@ describe("Jenkins API", function() {
     onSuccess = jasmine.createSpy('onSuccess');
     
     jobs_response = {
-      "upstreamDependencies": [
+      "upstreamProjects": [
           {
             "name" : "Full_Function",
             "url" : "https://test.me/job/Full_Functin/",

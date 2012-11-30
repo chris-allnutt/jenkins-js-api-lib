@@ -16,5 +16,8 @@ Initialization
     var jenkinsAPI = new JenkinsAPI(server_url); // no auth
 
 Usage
-
-    jenkinsAPI.getJobs(job_url);
+    // all examples return a JenkinsAPIJob Object
+    jenkinsAPI.getJobs(/* function */ callback);
+    jenkinsAPI.getUpstreamProjectsForJob(/* function */ callback);
+    
+    

@@ -5,6 +5,8 @@ Jenkins JS Lib is a Javascript library for interacting with a Jenkins CI Server
 
 Depends on Jquery, examples use 1.8.3
 
+Unit tests available in the specs folder, just run index.html
+
 Usage
 -----
 Initialization

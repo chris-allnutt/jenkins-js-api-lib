@@ -5,10 +5,15 @@ Jenkins JS Lib is a Javascript library for interacting with a Jenkins CI Server
 
 Usage
 -----
+Initialization
 
-JenkinsAPI.init(server_url, user, pass);
+    var jenkinsAPI = new JenkinsAPI.init(server_url, user, pass);
+    // or
+    var jenkinsAPI = new JenkinsAPI.init(server_url);
 
-JenkinsAPI.getAllJobs();
-JenkinsAPI.getJob(job_url);
-JenkinsAPI.getDownstreamDependencies(job_url);
-JenkinsAPI.build(job_url, build_paramaters);
+Usage
+
+    jenkinsAPI.getAllJobs();
+    jenkinsAPI.getJob(job_url);
+    jenkinsAPI.generateDownstreamDependencyGraph(job_url);
+    jenkinsAPI.build(job_url, build_paramaters);

@@ -9,6 +9,7 @@ Unit tests available in the specs folder, just run index.html
 
 Usage
 -----
+
 Initialization
 
     var jenkinsAPI = new JenkinsAPI(server_url, user, pass); // http auth user
@@ -16,6 +17,7 @@ Initialization
     var jenkinsAPI = new JenkinsAPI(server_url); // no auth
 
 Usage
+
     // all examples return a JenkinsAPIJob Object
     jenkinsAPI.getJobs(/* function */ callback);
     jenkinsAPI.getUpstreamProjectsForJob(/* function */ callback);

@@ -84,44 +84,41 @@ describe("Jenkins API", function() {
 
   });
   
-  // it("sends build request for provided job", function() {
-  //   var request, job;
-  //   
-  //   job = new JenkinsAPIJob({
-  //     color: 'green',
-  //     name : 'Good_Job',
-  //     url  : 'https://job_url_to_test.com/one'
-  //   });
-  //   
-  //   spyOn($, 'ajax').andReturn(true);
-  //   
-  //   api.buildJob(job);
-  //   
-  //   expect($.ajax).toHaveBeenCalledWith({
-  //     success: $.noop,
-  //     url: api.getAPIUrl(job.url + '/build'),
-  //     dataType: 'jsonp'
-  //   });
-  // });
-  // 
-  // it("sends build with provided parameters for job", function() {
-  //   var request, job;
-  //   
-  //   job = new JenkinsAPIJob({
-  //     color: 'green',
-  //     name : 'Good_Job',
-  //     url  : 'https://job_url_to_test.com/one'
-  //   });
-  //   
-  //   spyOn($, 'ajax').andReturn(true);
-  //   
-  //   api.buildJob(job, null, {"BRANCH": 'master'});
-  //   
-  //   expect($.ajax).toHaveBeenCalledWith({
-  //     success: $.noop,
-  //     url: api.getAPIUrl(job.url + '/build'),
-  //     data: JSON.stringify({"BRANCH": 'master'}),
-  //     dataType: 'jsonp'
-  //   });
-  // });
+  it("gets upsteam dependencies for job", function() {
+    var request, jobs_response, job, onSuccess;
+    
+    job = new JenkinsAPIJob({
+      color: 'green',
+      url: 'http://123.me/job_uri',
+      name: 'Hello World'
+    });
+    
+    onSuccess = jasmine.createSpy('onSuccess');
+    
+    jobs_response = {
+      "upstreamDependencies": [
+          {
+            "name" : "Full_Function",
+            "url" : "https://test.me/job/Full_Functin/",
+            "color" : "red"
+          },
+          {
+            "name" : "Account_Smoketest",
+            "url" : "https://test.me/job/Account_SmokeTest/",
+            "color" : "blue"
+          }
+      ]
+    };
+  
+    spyOn($, 'ajax').andCallFake(function (params) {
+      params.success(jobs_response);
+    });
+
+    api.init(baseTestUrl);
+    api.getUpstreamDependenciesForJob(job, onSuccess);
+
+    expect(onSuccess).toHaveBeenCalled();
+    expect(onSuccess.mostRecentCall.args[0].length).toEqual(2);      
+
+  });
 });

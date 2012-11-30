@@ -79,10 +79,49 @@ describe("Jenkins API", function() {
     api.init(baseTestUrl);
     api.getJobs(onSuccess);
 
-    runs(function() {
-      expect(onSuccess).toHaveBeenCalled();
-      expect(onSuccess.mostRecentCall.args[0].length).toEqual(2);      
-    });
+    expect(onSuccess).toHaveBeenCalled();
+    expect(onSuccess.mostRecentCall.args[0].length).toEqual(2);      
+
   });
   
+  // it("sends build request for provided job", function() {
+  //   var request, job;
+  //   
+  //   job = new JenkinsAPIJob({
+  //     color: 'green',
+  //     name : 'Good_Job',
+  //     url  : 'https://job_url_to_test.com/one'
+  //   });
+  //   
+  //   spyOn($, 'ajax').andReturn(true);
+  //   
+  //   api.buildJob(job);
+  //   
+  //   expect($.ajax).toHaveBeenCalledWith({
+  //     success: $.noop,
+  //     url: api.getAPIUrl(job.url + '/build'),
+  //     dataType: 'jsonp'
+  //   });
+  // });
+  // 
+  // it("sends build with provided parameters for job", function() {
+  //   var request, job;
+  //   
+  //   job = new JenkinsAPIJob({
+  //     color: 'green',
+  //     name : 'Good_Job',
+  //     url  : 'https://job_url_to_test.com/one'
+  //   });
+  //   
+  //   spyOn($, 'ajax').andReturn(true);
+  //   
+  //   api.buildJob(job, null, {"BRANCH": 'master'});
+  //   
+  //   expect($.ajax).toHaveBeenCalledWith({
+  //     success: $.noop,
+  //     url: api.getAPIUrl(job.url + '/build'),
+  //     data: JSON.stringify({"BRANCH": 'master'}),
+  //     dataType: 'jsonp'
+  //   });
+  // });
 });

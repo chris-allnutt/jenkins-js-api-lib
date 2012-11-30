@@ -1,0 +1,73 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+  "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+  <!-- include source files here... -->
+  <script type="text/javascript" src="../../lib/JenkinsAPIJob.js"></script>
+  <script type="text/javascript" src="../../lib/JenkinsAPI.js"></script>
+  <script type="text/javascript" src="../../lib/Base64.js"></script>
+  <style type="text/css">
+    label {
+      float: left;
+      clear: left;
+    }
+    
+    input {
+      float: left;
+      clear: right;
+    }
+    
+    #jobs {
+      clear: both;
+    }
+  </style>
+</head>
+
+<body>
+  <form id="getJobs">
+  	<label>Jenkins server Url</label><input type="text" name="server_url"/>
+  	<br/>
+  	<p><em>Credentials only needed for http auth</em></p>
+  	<label>Username</label><input type="text" name="username" placeholder="only for http auth"/>
+  	<label>Password</label><input type="password" name="password"/>
+  	<input type="submit">
+  </form>
+  
+  <div id="jobs">
+  </div>
+<script type="text/javascript">
+
+  $(function () {
+    $('#getJobs').submit(function (form) {
+      var api, server_url, username, password;
+      
+      server_url = $('input[name="server_url"]', this).val();
+      username = $('input[name="username"]', this).val();
+      password = $('input[name="password"]', this).val();
+      
+      if (username !== '' && password !== '') {
+        api = new JenkinsAPI(server_url, username, password);
+      } else {
+        api = new JenkinsAPI(server_url);
+      }
+      
+      api.getJobs(function(jobs) {
+        var newDiv;
+        
+        for(var x = 0; x < jobs.length; x ++) {
+          newDiv = $('<div></div>').
+            html(jobs[x].name + ' - ' + jobs[x].url).
+            css({color: jobs[x].color}).
+            appendTo($('#jobs'));
+        }
+      });
+      
+      return false;
+    })
+  });
+
+</script>
+</body>
+</html>
